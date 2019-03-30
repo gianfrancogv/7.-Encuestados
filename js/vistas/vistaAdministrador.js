@@ -23,13 +23,13 @@ VistaAdministrador.prototype = {
     this.configuracionDeBotones();
   },
 
-  construirElementoPregunta: function(pregunta){
+  construirElementoPregunta: function(pregunta) {
     var contexto = this;
     var nuevoItem = $('<li></li>').addClass("list-group-item").attr("id", pregunta.id);
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
-    interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
+    interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp) {
       return " " + resp.textoRespuesta;
     }));
     nuevoItem.html($('.d-flex').html());
@@ -40,7 +40,7 @@ VistaAdministrador.prototype = {
     var lista = this.elementos.lista;
     lista.html('');
     var preguntas = this.modelo.preguntas;
-    for (var i=0;i<preguntas.length;++i){
+    for (var i = 0; i < preguntas.length; ++i){
       lista.append(this.construirElementoPregunta(preguntas[i]));
     }
   },
@@ -64,7 +64,7 @@ VistaAdministrador.prototype = {
     //asociar el resto de los botones a eventos
   },
 
-  limpiarFormulario: function(){
+  limpiarFormulario: function() {
     $('.form-group.answer.has-feedback.has-success').remove();
   },
 };
