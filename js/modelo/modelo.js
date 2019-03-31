@@ -1,12 +1,12 @@
-/*
- * Modelo
- */
+// Modelo
+
 var Modelo = function() {
   this.preguntas = [];
   this.ultimoId = 0;
 
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
+  this.preguntaEliminada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -31,6 +31,11 @@ Modelo.prototype = {
     this.preguntas.push(nuevaPregunta);
     this.guardar();
     this.preguntaAgregada.notificar();
+  },
+
+  borrarPregunta: function(id) {
+    this.preguntas.splice([id - 1], 1);
+    this.preguntaEliminada.notificar();
   },
 
   //se guardan las preguntas
