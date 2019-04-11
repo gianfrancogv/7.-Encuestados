@@ -12,7 +12,7 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   });
   this.modelo.preguntaEliminada.suscribir(function() {
     contexto.reconstruirLista();
-  })
+  });
 };
 
 VistaAdministrador.prototype = {
