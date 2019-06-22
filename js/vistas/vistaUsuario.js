@@ -1,6 +1,3 @@
-/*
- * Vista usuario
- */
 var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo = modelo;
   this.controlador = controlador;
@@ -8,8 +5,8 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   var contexto = this;
 
   //suscripcion a eventos del modelo
-  this.modelo.preguntaAgregada.suscribir(function() {
-    contexto.reconstruirLista();
+  this.modelo.respuestaVotada.suscribir(function() {
+    contexto.reconstruirGrafico();
   });
 };
 
@@ -49,11 +46,14 @@ VistaUsuario.prototype = {
     var contexto = this;
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function(clave){
-      //completar
-      //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
+      listaPreguntas.append($('<div>', {
+        value: clave.textoPregunta,
+        id: clave.id,
+        text: clave.textoPregunta
+      }));
       var respuestas = clave.cantidadPorRespuesta;
       contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
-    })
+    });
   },
 
   //muestra respuestas
@@ -74,19 +74,21 @@ VistaUsuario.prototype = {
   agregarVotos: function(){
     var contexto = this;
     $('#preguntas').find('div').each(function(){
-        var nombrePregunta = $(this).attr('value');
-        var id = $(this).attr('id');
-        var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
-        $('input[name=' + id + ']').prop('checked',false);
-        contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);
-      });
+      var nombrePregunta = $(this).attr('value');
+      var id = $(this).attr('id');
+      var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
+      $('input[name=' + id + ']').prop('checked',false);
+      if(respuestaSeleccionada !== undefined){
+        contexto.controlador.agregarVoto(nombrePregunta, respuestaSeleccionada);
+      }
+    });
   },
 
   dibujarGrafico: function(nombre, respuestas){
-    var seVotoAlgunaVez = false;
-    for(var i=1;i<respuestas.length;++i){
-      if(respuestas[i][1]>0){
-        seVotoAlgunaVez = true;
+    var primerVoto = false;
+    for(var i = 1; i < respuestas.length;++i){
+      if(respuestas[i][1] > 0){
+        primerVoto = true;
       }
     }
     var contexto = this;
@@ -108,9 +110,9 @@ VistaUsuario.prototype = {
       div.style.width = '400';
       div.style.height = '300px';
       var chart = new google.visualization.PieChart(div);
-      if(seVotoAlgunaVez){
+      if(primerVoto){
         chart.draw(data, options);
       }
     }
-  },
+  }
 };

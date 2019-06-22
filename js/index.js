@@ -9,7 +9,8 @@ var vistaAdmin = new VistaAdministrador(modelo, new Controlador(modelo), {
   'respuesta': $('#respuesta'),
   'formulario': $('localStorageForm'),
   'botonAgregarPregunta': $('#agregarPregunta'),
-  'muestraDeRespuestas': $('.panel-body')
+  'muestraDeRespuestas': $('.panel-body'),
+  'botonModificarPregunta': $('#modificarPregunta')
 });
 
 vistaAdmin.inicializar();
